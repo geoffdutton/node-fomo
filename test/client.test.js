@@ -58,9 +58,17 @@ describe('FomoClient', () => {
     expect(request.set).toHaveBeenCalledWith('Authorization', `Token ${client.token}`)
   })
 
+  it('GETs with query params', () => {
+    client._get('/something', { some: 'querything' })
+    expect(request.get).toHaveBeenCalledWith(`${client.endpoint}/something`)
+    expect(request.set).toHaveBeenCalledWith('Authorization', `Token ${client.token}`)
+    expect(request.query).toHaveBeenCalledWith({ some: 'querything' })
+  })
+
   describe('routes', () => {
     beforeEach(() => {
       jest.spyOn(client, '_post')
+      client._get = jest.fn().mockResolvedValue(exampleResponse)
       request.__setMockResponseBody(exampleResponse)
     })
 
@@ -89,10 +97,18 @@ describe('FomoClient', () => {
     })
 
     test('getEvent', () => {
-      client._get = jest.fn().mockResolvedValue(exampleResponse)
       return client.getEvent(1)
         .then(savedEvent => {
           expect(client._get).toHaveBeenCalledWith('/events/1')
+          expect(savedEvent).toBeInstanceOf(FomoEvent)
+        })
+    })
+
+    test('findEvent', () => {
+      return client.findEvent('email_address', 'john@fomo.com')
+        .then(savedEvent => {
+          expect(client._get)
+            .toHaveBeenCalledWith('/events/find', { field: 'email_address', q: 'john@fomo.com'})
           expect(savedEvent).toBeInstanceOf(FomoEvent)
         })
     })
