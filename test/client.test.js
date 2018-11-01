@@ -45,13 +45,6 @@ describe('FomoClient', () => {
     delete process.env.FOMO_TOKEN
   })
 
-  it('POSTs', () => {
-    client._post('/path', { some: 'data' })
-    expect(request.post).toHaveBeenCalledWith(`${client.endpoint}/path`)
-    expect(request.set).toHaveBeenCalledWith('Authorization', `Token ${client.token}`)
-    expect(request.send).toHaveBeenCalledWith({ some: 'data' })
-  })
-
   it('GETs', () => {
     client._get('/something/3')
     expect(request.get).toHaveBeenCalledWith(`${client.endpoint}/something/3`)
@@ -65,10 +58,29 @@ describe('FomoClient', () => {
     expect(request.query).toHaveBeenCalledWith({ some: 'querything' })
   })
 
+  it('PATCHes', () => {
+    client._patch('/path', { some: 'data' })
+    expect(request.patch).toHaveBeenCalledWith(`${client.endpoint}/path`)
+    expect(request.set).toHaveBeenCalledWith('Authorization', `Token ${client.token}`)
+    expect(request.send).toHaveBeenCalledWith({ some: 'data' })
+  })
+
+  it('DELETEs', () => {
+    client._delete('/something/3')
+    expect(request.delete).toHaveBeenCalledWith(`${client.endpoint}/something/3`)
+    expect(request.set).toHaveBeenCalledWith('Authorization', `Token ${client.token}`)
+  })
+
   describe('routes', () => {
     beforeEach(() => {
       jest.spyOn(client, '_post')
-      client._get = jest.fn().mockResolvedValue(exampleResponse)
+      jest.spyOn(client, '_patch')
+      client._get = jest.fn().mockResolvedValue({ body: exampleResponse })
+      client._delete = jest.fn().mockResolvedValue({
+        body: {
+          message: 'Event successfully deleted'
+        }
+      })
       request.__setMockResponseBody(exampleResponse)
     })
 
@@ -93,6 +105,7 @@ describe('FomoClient', () => {
         .then(savedEvent => {
           expect(client._post).toHaveBeenCalledWith('/events', { event })
           expect(savedEvent).toBeInstanceOf(FomoEvent)
+          expect(savedEvent.city).toBe('New York')
         })
     })
 
@@ -101,6 +114,7 @@ describe('FomoClient', () => {
         .then(savedEvent => {
           expect(client._get).toHaveBeenCalledWith('/events/1')
           expect(savedEvent).toBeInstanceOf(FomoEvent)
+          expect(savedEvent.id).toBe(1)
         })
     })
 
@@ -108,8 +122,66 @@ describe('FomoClient', () => {
       return client.findEvent('email_address', 'john@fomo.com')
         .then(savedEvent => {
           expect(client._get)
-            .toHaveBeenCalledWith('/events/find', { field: 'email_address', q: 'john@fomo.com'})
+            .toHaveBeenCalledWith('/events/find', { field: 'email_address', q: 'john@fomo.com' })
           expect(savedEvent).toBeInstanceOf(FomoEvent)
+        })
+    })
+
+    test('getEvents', () => {
+      // For brevity, just return the ids, but it will return an array of FomoEvents
+      client._get = jest.fn().mockResolvedValue({ body: [{ id: 3 }, { id: 78 }] })
+      return client.getEvents()
+        .then(events => {
+          expect(client._get).toHaveBeenCalledWith('/events', undefined)
+          expect(events).toHaveLength(2)
+          expect(events[0]).toBeInstanceOf(FomoEvent)
+          expect(events[1].id).toBe(78)
+        })
+    })
+
+    test('getEvents with options', () => {
+      // For brevity, just return the ids, but it will return an array of FomoEvents
+      client._get = jest.fn().mockResolvedValue({ body: [{ id: 3 }, { id: 78 }] })
+      return client.getEvents({ per_page: 10, order_by: 'event_type_id' })
+        .then(events => {
+          expect(client._get)
+            .toHaveBeenCalledWith('/events', { per_page: 10, order_by: 'event_type_id' })
+          expect(events).toHaveLength(2)
+          expect(events[0]).toBeInstanceOf(FomoEvent)
+          expect(events[1].id).toBe(78)
+        })
+    })
+
+    test('updateEvent', () => {
+      const event = new FomoEvent({
+        'event_type_id': '123',
+        'external_id': 'adf23r',
+        'first_name': 'John',
+        'email_address': 'john@fomo.com',
+        'ip_address': '128.177.108.102',
+        'city': 'New York',
+        'country': 'USA',
+        'title': 'Manhattan Dealership',
+        'image_url': 'http://some-car-image.png',
+        'url': 'http://dealership.com/some-great-car',
+        'custom_event_fields_attributes': [
+          { 'key': 'model', 'value': 'Corvette' }
+        ]
+      })
+
+      return client.updateEvent(1, event)
+        .then(savedEvent => {
+          expect(client._patch).toHaveBeenCalledWith('/events/1', { event })
+          expect(savedEvent).toBeInstanceOf(FomoEvent)
+          expect(savedEvent.external_id).toBe('adf23r')
+        })
+    })
+
+    test('deleteEvent', () => {
+      return client.deleteEvent(1)
+        .then(res => {
+          expect(client._delete).toHaveBeenCalledWith('/events/1')
+          expect(res.message).toBe('Event successfully deleted')
         })
     })
   })
