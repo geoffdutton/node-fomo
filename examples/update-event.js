@@ -3,7 +3,6 @@
  * will need to reach out to fomo
  */
 
-
 /**
  * FOMO_TOKEN=<your token> node examples/update-event.js
  */

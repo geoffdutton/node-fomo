@@ -6,7 +6,8 @@
   "author": "Geoff Dutton <g.dutton@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest --coverage",
+    "lint": "standard",
+    "test": "yarn lint && jest --coverage",
     "tdd": "jest --watch"
   },
   "devDependencies": {
