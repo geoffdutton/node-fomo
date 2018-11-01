@@ -5,6 +5,7 @@
   "main": "index.js",
   "author": "Geoff Dutton <g.dutton@gmail.com>",
   "license": "MIT",
+  "repository": "https://github.com/geoffdutton/node-fomo.git",
   "scripts": {
     "lint": "standard",
     "test": "yarn lint && jest --coverage",
