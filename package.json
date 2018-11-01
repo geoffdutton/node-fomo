@@ -8,9 +8,11 @@
   "scripts": {
     "lint": "standard",
     "test": "yarn lint && jest --coverage",
-    "tdd": "jest --watch"
+    "tdd": "jest --watch",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "devDependencies": {
+    "coveralls": "^3.0.2",
     "jest": "^23.6.0",
     "standard": "^12.0.1"
   },
