@@ -19,7 +19,7 @@ __NOTE__: This is a work in progress.
 - [ ] Implement [Create a Template](https://docs.fomo.com/reference#create-a-template)
 - [ ] Implement [Manage Applications](https://docs.fomo.com/reference#application-get-statistics)
 - [ ] Better documentation
-- [ ] Publish to NPM with properly ignoring test files
+- [x] Publish to NPM with properly ignoring test files
 
 Pull requests welcome!
 
