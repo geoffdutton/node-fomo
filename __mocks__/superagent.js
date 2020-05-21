@@ -4,7 +4,7 @@ let mockResponse
 
 const Request = {
   post: jest.fn().mockReturnThis(),
-  'delete': jest.fn().mockReturnThis(),
+  delete: jest.fn().mockReturnThis(),
   patch: jest.fn().mockReturnThis(),
   get: jest.fn().mockReturnThis(),
   query: jest.fn().mockReturnThis(),

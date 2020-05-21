@@ -6,22 +6,22 @@ const request = require('superagent')
 jest.mock('superagent')
 
 const exampleResponse = {
-  'id': 1,
-  'external_id': 'adf23r',
-  'event_type_id': '123',
-  'url': 'http://fomo.com',
-  'first_name': 'John',
-  'city': 'New York',
-  'country': 'US',
-  'title': 'San Francisco Dealership',
-  'image_url': 'http://newevent.com',
-  'created_at_to_seconds_from_epoch': 1123123123,
-  'message': 'John from New York just got a new Corvette at our San Francisco Dealership',
-  'link': 'http://fomo.com/some-awesome-link?utm_source=fomo&utm_medium=notification',
-  'custom_event_fields_attributes': [
+  id: 1,
+  external_id: 'adf23r',
+  event_type_id: '123',
+  url: 'http://fomo.com',
+  first_name: 'John',
+  city: 'New York',
+  country: 'US',
+  title: 'San Francisco Dealership',
+  image_url: 'http://newevent.com',
+  created_at_to_seconds_from_epoch: 1123123123,
+  message: 'John from New York just got a new Corvette at our San Francisco Dealership',
+  link: 'http://fomo.com/some-awesome-link?utm_source=fomo&utm_medium=notification',
+  custom_event_fields_attributes: [
     {
-      'key': 'model',
-      'value': 'Corvette'
+      key: 'model',
+      value: 'Corvette'
     }
   ]
 }
@@ -86,18 +86,18 @@ describe('FomoClient', () => {
 
     test('createEvent', () => {
       const event = new FomoEvent({
-        'event_type_id': '123',
-        'external_id': 'adf23r',
-        'first_name': 'John',
-        'email_address': 'john@fomo.com',
-        'ip_address': '128.177.108.102',
-        'city': 'New York',
-        'country': 'USA',
-        'title': 'Manhattan Dealership',
-        'image_url': 'http://some-car-image.png',
-        'url': 'http://dealership.com/some-great-car',
-        'custom_event_fields_attributes': [
-          { 'key': 'model', 'value': 'Corvette' }
+        event_type_id: '123',
+        external_id: 'adf23r',
+        first_name: 'John',
+        email_address: 'john@fomo.com',
+        ip_address: '128.177.108.102',
+        city: 'New York',
+        country: 'USA',
+        title: 'Manhattan Dealership',
+        image_url: 'http://some-car-image.png',
+        url: 'http://dealership.com/some-great-car',
+        custom_event_fields_attributes: [
+          { key: 'model', value: 'Corvette' }
         ]
       })
 
@@ -154,18 +154,18 @@ describe('FomoClient', () => {
 
     test('updateEvent', () => {
       const event = new FomoEvent({
-        'event_type_id': '123',
-        'external_id': 'adf23r',
-        'first_name': 'John',
-        'email_address': 'john@fomo.com',
-        'ip_address': '128.177.108.102',
-        'city': 'New York',
-        'country': 'USA',
-        'title': 'Manhattan Dealership',
-        'image_url': 'http://some-car-image.png',
-        'url': 'http://dealership.com/some-great-car',
-        'custom_event_fields_attributes': [
-          { 'key': 'model', 'value': 'Corvette' }
+        event_type_id: '123',
+        external_id: 'adf23r',
+        first_name: 'John',
+        email_address: 'john@fomo.com',
+        ip_address: '128.177.108.102',
+        city: 'New York',
+        country: 'USA',
+        title: 'Manhattan Dealership',
+        image_url: 'http://some-car-image.png',
+        url: 'http://dealership.com/some-great-car',
+        custom_event_fields_attributes: [
+          { key: 'model', value: 'Corvette' }
         ]
       })
 
