@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "coveralls": "^3.1.0",
-    "jest": "^26.0.1",
+    "jest": "25",
     "standard": "^14.3.4"
   },
   "jest": {
