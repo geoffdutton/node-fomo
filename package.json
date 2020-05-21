@@ -1,6 +1,6 @@
 {
   "name": "node-fomo",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Fomo.com API wrapper for Node",
   "main": "index.js",
   "author": "Geoff Dutton <g.dutton@gmail.com>",
