@@ -1,5 +1,8 @@
 # node-fomo
 
+## Deprecated
+I recommend using the *official* SDK found here: https://github.com/usefomo/fomo-nodejs-sdk
+
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![Build Status](https://travis-ci.org/geoffdutton/node-fomo.svg?branch=master)](https://travis-ci.org/geoffdutton/node-fomo)
 [![Coverage Status](https://coveralls.io/repos/github/geoffdutton/node-fomo/badge.svg?branch=master)](https://coveralls.io/github/geoffdutton/node-fomo?branch=master)
